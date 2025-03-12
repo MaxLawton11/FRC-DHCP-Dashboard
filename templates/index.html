@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Selection</title>
+    <style>
+        body {
+            background-color: white;
+            background-image: url("{{ url_for('static', filename='2025_Field_Reef-Labels.png') }}"); /* Replace with your image path */
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment:fixed;
+
+            background-size:100%; /* Prevent resizing of the image */
+            padding: 0; /* Ensure no padding on sides */
+            margin: 0; /* Ensure no margin around the page */
+        }
+        .post-position {
+            display: grid;
+            grid-template-columns: repeat(6, auto);
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .elevator-level {
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .path-direction {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .coral-station {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px; 
+
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .ele-img {
+            background-color: white;
+            scale: 60%;
+            position: absolute;
+            top: 23%;
+            left: 17.75%;
+        }
+        
+        .elevator-button {position: absolute;}
+        .button-L1 { top: 65%; left: 30%; }
+        .button-L2 { top: 56.4%; left: 30%; }
+        .button-L3 { top: 46.85%; left: 30%; }
+        .button-L4 { top: 37.3%; left: 30%; }
+
+        .post-button {position: absolute;}
+        .button-A { top: 50%; left: 77%; }
+        .button-B { top: 45%; left: 77%; }
+        .button-C { top: 39%; left: 75%; }
+        .button-D { top: 37%; left: 73%; }
+        .button-E { top: 37%; left: 69.5%; }
+        .button-F { top: 39%; left: 67.5%; }
+        .button-G { top: 45%; left: 65.7%; }
+        .button-H { top: 50%; left: 65.7%; }
+        .button-I { top: 56%; left: 67.5%; }
+        .button-J { top: 58%; left: 69.5%; }
+        .button-K { top: 58%; left: 73%; }
+        .button-L { top: 56%; left: 75%; }
+
+        .path-direction-button {position: absolute;}
+        .button-clockwise        { top: 68%; left: 65.5%; }
+        .button-counterclockwise { top: 68%; left: 72.5%; }
+
+        .coral-station-button {position: absolute;}
+        .button-right {top: 10%; left: 90%; }
+        .button-left {top: 85%; left: 90%; }
+        
+
+        .selected {
+            background-color: lightblue;
+        }
+    </style>
+    <script>
+        // Initialize an object to hold button selection states
+        const selectionData = {
+            'elevator-level': {},
+            'post-position': {},
+            'coral-station': {},
+            'path-direction': {}
+        };
+
+        // Toggle button selection and update the selectionData object
+        function toggleSelection(event, group) {
+            // Get all buttons in the same group
+            const buttons = document.querySelectorAll(`.${group} button`);
+            
+            // Remove 'selected' class from all buttons in this group
+            buttons.forEach(button => {
+                button.classList.remove('selected');
+                selectionData[group][button.innerText] = false;
+            });
+            
+            // Add 'selected' class to the clicked button
+            event.target.classList.add('selected');
+            selectionData[group][event.target.innerText] = true;
+
+            // Send updated selection data to the server
+            saveSelectionData();
+        }
+
+        // Send selection data to the Flask backend
+        function saveSelectionData() {
+            fetch('/save_selection', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(selectionData)
+            })
+            .then(response => response.json())
+            .then(data => console.log('Data saved:', data))
+            .catch(error => console.error('Error saving data:', error));
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+
+        <img class="ele-img" src="{{ url_for('static', filename='EleButtons.png') }}" alt="">
+
+        <!-- Elevator Level Grid -->
+        <div class="elevator-level">
+            <button disabled class="elevator-button button-L1" onclick="toggleSelection(event, 'elevator-level')">L1</button>
+            <button class="elevator-button button-L2" onclick="toggleSelection(event, 'elevator-level')">L2</button>
+            <button class="elevator-button button-L3" onclick="toggleSelection(event, 'elevator-level')">L3</button>
+            <button class="elevator-button button-L4" onclick="toggleSelection(event, 'elevator-level')">L4</button>
+        </div>
+
+        <!-- Post Position Grid -->
+        <div class="post-position">
+            <button class="post-button button-B" onclick="toggleSelection(event, 'post-position')">B</button>
+            <button class="post-button button-A" onclick="toggleSelection(event, 'post-position')">A</button>
+            <button class="post-button button-C" onclick="toggleSelection(event, 'post-position')">C</button>
+            <button class="post-button button-D" onclick="toggleSelection(event, 'post-position')">D</button>
+            <button class="post-button button-E" onclick="toggleSelection(event, 'post-position')">E</button>
+            <button class="post-button button-F" onclick="toggleSelection(event, 'post-position')">F</button>
+            <button class="post-button button-G" onclick="toggleSelection(event, 'post-position')">G</button>
+            <button class="post-button button-H" onclick="toggleSelection(event, 'post-position')">H</button>
+            <button class="post-button button-I" onclick="toggleSelection(event, 'post-position')">I</button>
+            <button class="post-button button-J" onclick="toggleSelection(event, 'post-position')">J</button>
+            <button class="post-button button-K" onclick="toggleSelection(event, 'post-position')">K</button>
+            <button class="post-button button-L" onclick="toggleSelection(event, 'post-position')">L</button>
+        </div>
+
+        <!-- Path Direction Grid -->
+        <div class="path-direction">
+            <button class="path-direction-button button-clockwise" onclick="toggleSelection(event, 'path-direction')">CLOCKWISE</button>
+            <button class="path-direction-button button-counterclockwise" onclick="toggleSelection(event, 'path-direction')">COUNTERCLOCKWISE</button>
+        </div>
+
+        <!-- Coral Station -->
+        <div class="coral-station">
+            <button class="coral-station-button button-right" onclick="toggleSelection(event, 'coral-station')">RIGHT</button>
+            <button class="coral-station-button button-left" onclick="toggleSelection(event, 'coral-station')">LEFT</button>
+        </div>
+    </div>
+</body>
+</html>

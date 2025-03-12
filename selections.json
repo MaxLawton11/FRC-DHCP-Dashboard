@@ -1,0 +1,30 @@
+{
+    "elevator-level": {
+        "L1": false,
+        "L2": true,
+        "L3": false,
+        "L4": false
+    },
+    "post-position": {
+        "B": false,
+        "A": false,
+        "C": false,
+        "D": false,
+        "E": false,
+        "F": false,
+        "G": false,
+        "H": true,
+        "I": false,
+        "J": false,
+        "K": false,
+        "L": false
+    },
+    "coral-station": {
+        "RIGHT": false,
+        "LEFT": true
+    },
+    "path-direction": {
+        "CLOCKWISE": true,
+        "COUNTERCLOCKWISE": false
+    }
+}
